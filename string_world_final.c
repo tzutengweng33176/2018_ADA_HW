@@ -97,7 +97,7 @@ int t;
 scanf("%d", &t); //input n
 
 int n[t], v[t];  //v is the number of charactes and also the number of vertices on test case 
-
+//v is also the number of characters in U on that test case
 vector<int> s[t], r[t], map[t], ans[t]; 
 for(int i=0; i<t; i++){
 
@@ -150,7 +150,11 @@ map[i][r[i][x]]=x;
 
 
 for(int i=0; i<t; i++){
-Graph g(v[i]); //create a graph with v vertices
+
+Graph g(v[i]);
+
+int arr[2];
+//create a graph with v vertices
 //from vertex 0 to vertex v-1
 //we have to compare the character by rank
 for(int a=1; a<n[i]; a++){
@@ -159,7 +163,11 @@ p1=map[i][a];
 p2=map[i][a+1];
 		for(int b=0; b<min(n[i]-p1, n[i]-p2); b++){
 		      if(s[i][p1]!=s[i][p2]){
-					  g.addEdge(s[i][p1]-1, s[i][p2]-1);
+					  if(v[i]>2){
+						g.addEdge(s[i][p1]-1, s[i][p2]-1);
+						}else{
+						arr[s[i][p1]-1]=s[i][p2]-1;
+						}
 						break;
 
 					}else{
@@ -173,11 +181,11 @@ p2=map[i][a+1];
 if(v[i]>2){
 g.topologicalSort(); 
 }else{
-if(g.hasEdge(1)){
-cout << 2 << " "<<1; 
-}else{
-
+if(arr[0]==1){
 cout << 1 << " "<<2; 
+}else if(arr[1]==0){
+
+cout << 2 << " "<<1; 
 }
 
 }

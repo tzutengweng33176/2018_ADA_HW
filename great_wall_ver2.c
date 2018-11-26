@@ -12,7 +12,13 @@ struct Interval
 
 long long int power_of_interval(Interval i)
 {
-   return (i.end-i.start)*(i.end-i.start);
+  long long int num=i.end-i.start;
+	long long int sq=0;
+	for(long long int i=0; i<num; i++){
+	sq+=num;
+	}
+	
+	return sq; 
 }
 
 
@@ -76,11 +82,15 @@ vector<Interval> insert(vector<Interval> &input, Interval given, long long int p
        //         result.push_back(given);
 			//					power[day]+=power_of_interval(given);
        //     }
-						power[day]+=power_of_interval(input[i]);
+				//		power[day]+=power_of_interval(input[i]);
             continue;
         }else{
         // Now we know the pair overlaps. Lets find out how many input overlap. 
-        long long int st = i; 
+        if(i!=0){
+				power[day]+=power[i-1];
+				}
+
+					long long int st = i; 
      //   while (i < sz && intersect)
      //   {
      //       i++;
@@ -128,9 +138,9 @@ vector<Interval> vect;
 for(long long int i=0; i<n; i++){
 // sort the intervals in increasing order of start time 
 // if the vector is NOT empty
-  if(!vect.empty()){ 
-	sort(vect.begin(), vect.end(), compareInterval);
-	}
+//  if(!vect.empty()){ 
+//	sort(vect.begin(), vect.end(), compareInterval);
+//	}
   vect=insert(vect, arr[i], power, i);
 
 

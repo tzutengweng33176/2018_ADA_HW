@@ -7,10 +7,10 @@ using namespace std;
 // An interval has start time and end time 
 struct Interval 
 { 
-    int start, end; 
+   long long int start, end; 
 }; 
 
-int power_of_interval(Interval i)
+long long int power_of_interval(Interval i)
 {
    return (i.end-i.start)*(i.end-i.start);
 }
@@ -32,9 +32,9 @@ bool doesIntersect(Interval a, Interval b)
     return true;
 }
 //input vector must be sorted in order of start times
-vector<Interval> insert(vector<Interval> &input, Interval given, int power[], int day)
+vector<Interval> insert(vector<Interval> &input, Interval given, long long int power[],long long int day)
 {
-    int sz = input.size();
+    long long int sz = input.size();
     vector<Interval> result; 
 
     // check corner cases
@@ -52,7 +52,7 @@ vector<Interval> insert(vector<Interval> &input, Interval given, int power[], in
         {
             result.push_back(given);
         }
-        for (int i = 0; i < sz; i++)
+        for (long long int i = 0; i < sz; i++)
         {
             result.push_back(input[i]);
         }
@@ -64,7 +64,7 @@ vector<Interval> insert(vector<Interval> &input, Interval given, int power[], in
         return result;
     }
 
-    for (int i = 0; i < sz; i++)
+    for (long long int i = 0; i < sz; i++)
     {
         bool intersect = doesIntersect(input[i], given);
         if (!intersect)  // if NOT overlap
@@ -80,7 +80,7 @@ vector<Interval> insert(vector<Interval> &input, Interval given, int power[], in
             continue;
         }
         // Now we know the pair overlaps. Lets find out how many input overlap. 
-        int st = i; 
+        long long int st = i; 
         while (i < sz && intersect)
         {
             i++;
@@ -102,19 +102,19 @@ vector<Interval> insert(vector<Interval> &input, Interval given, int power[], in
 
 
 int main() {
-int n;//number of vertices
+long long int n;//number of vertices
 
-scanf("%d", &n); //input n
-int x[n], y[n];  //declare two arrays storing l and r
-int power[n]; //store the power of each day
+scanf("%lld", &n); //input n
+long long int x[n], y[n];  //declare two arrays storing l and r
+long long int power[n]; //store the power of each day
 
-for(int i=0; i<n; i++){
-  scanf("%d %d",&x[i], &y[i] ); //input a coordinate x, y
+for(long long int i=0; i<n; i++){
+  scanf("%lld %lld",&x[i], &y[i] ); //input a coordinate x, y
 
 }
 Interval arr[n]; //an array of Interval, from day 1 to day n
 
-for(int i=0; i<n; i++){
+for(long long int i=0; i<n; i++){
  arr[i]={x[i], y[i]}; 
  power[i]=0;
 // printf("%d %d\n", arr[i].start, arr[i].end);
@@ -123,7 +123,7 @@ for(int i=0; i<n; i++){
 
 vector<Interval> vect;
 //traverse the graph from vertex 0
-for(int i=0; i<n; i++){
+for(long long int i=0; i<n; i++){
 // sort the intervals in increasing order of start time 
 // if the vector is NOT empty
   if(!vect.empty()){ 
@@ -134,7 +134,7 @@ for(int i=0; i<n; i++){
 
 }
 
-for(int i=0; i<n; i++)
+for(long long int i=0; i<n; i++)
 {
 
 	printf("%d\n", power[i]);

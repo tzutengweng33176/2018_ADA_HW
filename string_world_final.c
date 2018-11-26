@@ -23,7 +23,7 @@ class Graph
     void topologicalSortUtil(int v, bool visited[], stack<int> &Stack); 
 public: 
     Graph(int V);   // Constructor 
-  
+    bool hasEdge(int v); 
     // function to add an edge to graph 
     void addEdge(int v, int w); 
   
@@ -36,7 +36,10 @@ Graph::Graph(int V)
     this->V = V; 
     adj = new list<int>[V]; 
 } 
-  
+bool Graph::hasEdge(int v){
+return !this->adj[v].empty();
+}  
+
 void Graph::addEdge(int v, int w) 
 { 
     adj[v].push_back(w); // Add w to v’s list. 
@@ -166,7 +169,18 @@ p2=map[i][a+1];
 		
 		}
 }
+
+if(v[i]>2){
 g.topologicalSort(); 
+}else{
+if(g.hasEdge(1)){
+cout << 2 << " "<<1; 
+}else{
+
+cout << 1 << " "<<2; 
+}
+
+}
 printf("\n"); 
 }
 

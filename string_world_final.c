@@ -104,7 +104,6 @@ for(int i=0; i<t; i++){
 scanf("%d %d", &n[i], &v[i]); //input number of vertices v
 
 int temp1[n[i]], temp2[n[i]];
-int temp3[n[i]+1];
 //int s[n][t], r[n][t];  //declare two arrays storing the string and the rank
 //int map[n+1][t];  //store the mapping between rank and index(start from string[index])
 //use adjacenct list to build the graph
@@ -135,14 +134,6 @@ map[i][r[i][x]]=x;
 } //END OF INPUT
 
 
-//for(int a=1; a<map[0].size(); a++){
-//printf("%d ", map[0][a]);
-//}
-//printf("\n");
-//for(int b=1; b<map[1].size(); b++){
-
-//printf("%d ", map[1][b]);
-//}
 //先把input按照test case number存好
 
 //算t次topological sort
@@ -151,9 +142,45 @@ map[i][r[i][x]]=x;
 
 for(int i=0; i<t; i++){
 
+// To store LCP array 
+vector<int> lcp(n[i], 0);
+// Initialize length of previous LCP
+int k = 0;
+// Process all suffixes one by one starting from
+    // first suffix in txt[]
+for (int z=0; z<n[i]; z++)
+    {
+        /* If the current suffix is at n-1, then we don’t
+           have next substring to consider. So lcp is not
+           defined for this substring, we put zero. */
+        if (r[i][z] == n[i])
+        {
+            k = 0;
+            continue;
+        }
+
+        /* j contains index of the next substring to
+           be considered  to compare with the present
+           substring, i.e., next string in suffix array */
+        int l = map[i][r[i][z]+1];
+
+        // Directly start matching from k'th index as
+        // at-least k-1 characters will match
+        while ((z+k<n[i]) &&( l+k<n[i] )&&(s[i][z+k]==s[i][l+k]))
+				{ k++;
+         }
+        lcp[r[i][z]-1] = k; // lcp for the present suffix.
+
+        // Deleting the starting character from the string.
+        if (k>0)
+			   	{k--;}
+    }
+//for (int y = 0; y < n[i]; y++){ 
+//        cout<<"LCP: " << lcp[y] << " "; 
+//    cout << endl; 
+//}
 Graph g(v[i]);
 
-int arr[2];
 //create a graph with v vertices
 //from vertex 0 to vertex v-1
 //we have to compare the character by rank
@@ -161,43 +188,31 @@ for(int a=1; a<n[i]; a++){
 int p1, p2; //declare two pointers pointing to the starting index of the suffix
 p1=map[i][a];
 p2=map[i][a+1];
-		for(int b=0; b<min(n[i]-p1, n[i]-p2); b++){
-		      if(s[i][p1]!=s[i][p2]){
-					  if(v[i]>2){
-						g.addEdge(s[i][p1]-1, s[i][p2]-1);
-						}else{
-						arr[s[i][p1]-1]=s[i][p2]-1;
-						}
-						break;
+//map  is a suffix array
+//用suffix array 可以求出每兩段suffix的longest common prefix
+//從longest common prefix後一個直接比就好
+//建立longest common prefix
+		for(int b=0; b<min(n[i]-p1, n[i]-p2); b++){	      
+	      if(s[i][p1]!=s[i][p2]){
+					g.addEdge(s[i][p1]-1, s[i][p2]-1);
+					break;
 
 					}else{
-						p1++;
-						p2++;
+						//這裏可以不用把整個suffix跑一遍
+						//直接找longest common prefix後面那一個比就好
+						p1=p1+lcp[a-1];
+						p2=p2+lcp[a-1];	
 					}
-		
+
 		}
 }
-
-if(v[i]>2){
 g.topologicalSort(); 
-}else{
-if(arr[0]==1){
-cout << 1 << " "<<2; 
-}else if(arr[1]==0){
 
-cout << 2 << " "<<1; 
-}
-
-}
 printf("\n"); 
+
 }
-
-
-
-
-
-
 
 //最後再依照test case number輸出結果
 return 0;
 }
+

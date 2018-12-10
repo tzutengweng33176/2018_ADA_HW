@@ -15,11 +15,12 @@
 using namespace std;  
 typedef long long int ll;
 
-vector<pair<ll,ll>> X(2000000);
-vector<pair<ll,ll>> Y(2000000);
+vector<pair<ll,ll>> X(1100000);
+vector<pair<ll,ll>> Y(1100000);
 
 bool comparison(const pair<ll,ll> &a,const ll &b){
-    return a.first<b;
+    return a.first<=b; //幹！是小於等於啊！不是小於
+		//如果是小於的話，如果weight重複會有bug
 }
 
 // Find all possible sum of elements of a[] and store 
@@ -137,14 +138,14 @@ scanf("%lld %lld", &n, &W); //input number of items and knapsack capacity W
 ll v[n], w[n];  //declare two arrays storing values and weights
 
 
-for(int i=0; i<n; i++){
+for(ll i=0; i<n; i++){
   scanf("%lld %lld",&v[i], &w[i] ); //input a coordinate x, y
   
 }
 
 vector<pair<ll,ll>> vect;
 
-for(int i=0; i<n; i++){
+for(ll i=0; i<n; i++){
  vect.push_back(make_pair(w[i], v[i]));  //store weight and value pair in a vector
 }
 ll ans= knapsack(vect, n, W);
